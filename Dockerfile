@@ -3,17 +3,19 @@ FROM zokidoki/ubuntu22.04_base:withdefaultuser
 USER root 
 SHELL ["/bin/bash","-c"]
 
-#You must update each and every time
-RUN apt-get update
-
-#python 3.10 is the default version in ubuntu 22.04
-RUN apt-get -qqy install python3 >/dev/null 2>/dev/null
-
-#You are going to need the following for building python packages
+#This path is needed for python package building.
 RUN export PATH="/home/ubuntu/.local/bin:$PATH"
-RUN apt-get -qqy install python3-pip  >/dev/null 2>/dev/null
-RUN yes | python3 -m pip install --upgrade build --quiet --exists-action ignore
-RUN apt-get -qqy install python3.10-venv  >/dev/null 2>/dev/null
+
+#You must update each and every time
+RUN apt-get -y update && apt-get install -y \
+    #python 3.10 is the default version in ubuntu 22.04
+    python3 \
+    # You need pip and venv for python package building, amongst other things.
+    python3-pip \
+    python3-venv
+
+# We need to install "build" for package building
+RUN yes | python3 -m pip install --upgrade build --quiet --exists-action i
 
 USER ubuntu
 WORKDIR /home/ubuntu/
