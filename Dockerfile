@@ -16,6 +16,7 @@ RUN apt-get -y update && apt-get install -y \
 
 # We need to install "build" for package building
 RUN yes | python3 -m pip install --upgrade build --quiet --exists-action i
+RUN yes | python3 -m pip install --upgrade twine --quiet --exists-action i
 
 USER ubuntu
 WORKDIR /home/ubuntu/
