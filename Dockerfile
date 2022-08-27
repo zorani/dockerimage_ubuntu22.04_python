@@ -7,7 +7,9 @@ SHELL ["/bin/bash","-c"]
 RUN export PATH="/home/ubuntu/.local/bin:$PATH"
 
 #You must update each and every time
-RUN apt-get -y update && apt-get install -y \
+RUN apt-get update \
+ && DEBIAN_FRONTEND=noninteractive \
+    apt-get install --assume-yes --no-install-recommends \
     #python 3.10 is the default version in ubuntu 22.04
     python3 \
     # You need pip and venv for python package building, amongst other things.
