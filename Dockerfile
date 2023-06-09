@@ -8,13 +8,17 @@ RUN export PATH="/home/ubuntu/.local/bin:$PATH"
 
 #You must update each and every time
 RUN apt-get update \
- && DEBIAN_FRONTEND=noninteractive \
+    && DEBIAN_FRONTEND=noninteractive \
     apt-get install --assume-yes --no-install-recommends \
     #python 3.10 is the default version in ubuntu 22.04
     python3 \
     # You need pip and venv for python package building, amongst other things.
     python3-pip \
     python3-venv
+
+#Lets try upgrading too
+RUN apt-get update \
+    && apt-get upgrade --assume-yes
 
 # We need to install "build" for package building
 RUN yes | python3 -m pip install --upgrade build --quiet --exists-action i
